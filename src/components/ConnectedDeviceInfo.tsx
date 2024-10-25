@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import FontAwesome icons
 
 interface ConnectedDeviceInfoProps {
@@ -10,12 +10,16 @@ const ConnectedDeviceInfo: React.FC<ConnectedDeviceInfoProps> = ({ isDarkTheme }
   const [isConnected, setIsConnected] = useState(false); // Assume disconnected by default
   const [connectedGlasses, setConnectedGlasses] = useState(''); // No glasses connected by default
   const [batteryLevel, setBatteryLevel] = useState(50); // Example battery level
-  const [modalVisible, setModalVisible] = useState(false); // State for controlling modal visibility
+  const [isLoading, setIsLoading] = useState(false); // Loading state for connection
 
-  const handleConnect = (glasses: string) => {
-    setIsConnected(true);
-    setConnectedGlasses(glasses); // Set the glasses type when connected
-    setModalVisible(false); // Close the modal
+  // Simulate connecting to a device
+  const handleConnect = () => {
+    setIsLoading(true); // Set loading state
+    setTimeout(() => {
+      setIsConnected(true);
+      setConnectedGlasses('inmo_air'); // Automatically set glasses type (e.g., Inmo Air)
+      setIsLoading(false); // Remove loading state
+    }, 2000); // Simulate delay for connecting
   };
 
   const handleDisconnect = () => {
@@ -75,17 +79,17 @@ const ConnectedDeviceInfo: React.FC<ConnectedDeviceInfoProps> = ({ isDarkTheme }
           <View style={[styles.statusBar, { backgroundColor: statusBarBackgroundColor }]}>
             {/* Battery Status */}
             <View style={styles.statusInfo}>
+              <Text style={[styles.statusLabel, { color: textColor }]}>Battery</Text>
               <View style={styles.batteryContainer}>
                 <Icon name="battery-full" size={20} color={batteryColor} style={styles.batteryIcon} />
                 <Text style={[styles.batteryValue, { color: batteryColor }]}>{batteryLevel}%</Text>
               </View>
-              <Text style={[styles.statusLabel, { color: textColor }]}>Battery</Text>
             </View>
 
             {/* Brightness Status */}
             <View style={styles.statusInfo}>
-              <Text style={[styles.statusValue, { color: textColor }]}>87%</Text>
               <Text style={[styles.statusLabel, { color: textColor }]}>Brightness</Text>
+              <Text style={[styles.statusValue, { color: textColor }]}>87%</Text>
             </View>
 
             {/* Disconnect Button */}
@@ -97,42 +101,18 @@ const ConnectedDeviceInfo: React.FC<ConnectedDeviceInfoProps> = ({ isDarkTheme }
         </>
       ) : (
         <>
-          <Text style={[styles.connectText, { color: textColor }]}>No device connected</Text>
+          <Text style={[styles.connectText, { color: textColor }]}>
+            {isLoading ? 'Connecting...' : 'No device connected'}
+          </Text>
 
-          {/* Connect Button (opens the modal) */}
-          <TouchableOpacity style={styles.connectButton} onPress={() => setModalVisible(true)}>
-            <Icon name="wifi" size={18} color="white" style={styles.icon} />
-            <Text style={styles.buttonText}>Connect</Text>
-          </TouchableOpacity>
-
-          {/* Modal for selecting glasses */}
-          <Modal
-            transparent={true}
-            animationType="slide"
-            visible={modalVisible}
-            onRequestClose={() => setModalVisible(false)}
-          >
-            <View style={styles.modalOverlay}>
-              <View style={styles.modalContent}>
-                <Text style={styles.modalTitle}>Select Glasses to Connect</Text>
-                <TouchableOpacity style={styles.modalButton} onPress={() => handleConnect('vuzix-z100')}>
-                  <Text style={styles.modalButtonText}>Vuzix Z100</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.modalButton} onPress={() => handleConnect('inmo_air')}>
-                  <Text style={styles.modalButtonText}>Inmo Air</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.modalButton} onPress={() => handleConnect('tcl_rayneo_x_two')}>
-                  <Text style={styles.modalButtonText}>TCL RayNeo X2</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.modalButton} onPress={() => handleConnect('vuzix_shield')}>
-                  <Text style={styles.modalButtonText}>Vuzix Shield</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.modalCloseButton} onPress={() => setModalVisible(false)}>
-                  <Text style={styles.modalCloseButtonText}>Close</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
+          {isLoading ? (
+            <ActivityIndicator size="large" color="#2196F3" />
+          ) : (
+            <TouchableOpacity style={styles.connectButton} onPress={handleConnect}>
+              <Icon name="wifi" size={18} color="white" style={styles.icon} />
+              <Text style={styles.buttonText}>Connect</Text>
+            </TouchableOpacity>
+          )}
         </>
       )}
     </View>
@@ -232,48 +212,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
-  },
-  modalContent: {
-    width: '80%',
-    backgroundColor: 'white',
-    borderRadius: 10,
-    padding: 20,
-    alignItems: 'center',
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  modalButton: {
-    paddingVertical: 10,
-    width: '100%',
-    alignItems: 'center',
-    marginBottom: 10,
-    backgroundColor: '#2196F3',
-    borderRadius: 5,
-  },
-  modalButtonText: {
-    color: 'white',
-    fontSize: 16,
-  },
-  modalCloseButton: {
-    marginTop: 10,
-    paddingVertical: 10,
-    width: '100%',
-    alignItems: 'center',
-    backgroundColor: '#ff6347',
-    borderRadius: 5,
-  },
-  modalCloseButtonText: {
-    color: 'white',
-    fontSize: 16,
   },
 });
 

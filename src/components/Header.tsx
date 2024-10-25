@@ -3,25 +3,35 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 interface HeaderProps {
   isDarkTheme: boolean;
+  navigation: any; // Add the navigation prop
 }
 
-const Header: React.FC<HeaderProps> = ({ isDarkTheme }) => {
+const Header: React.FC<HeaderProps> = ({ isDarkTheme, navigation }) => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // Set to true to ensure "Sign Out" button is visible initially
 
   const toggleDropdown = () => {
     setDropdownVisible(!isDropdownVisible);
   };
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-    setDropdownVisible(false);
-  };
-
   const handleLogout = () => {
     setIsLoggedIn(false);
     setDropdownVisible(false);
+    if (navigation) {
+      navigation.navigate('Intro'); // Navigate to the Intro screen after logging out
+    } else {
+      console.error('Navigation prop is undefined');
+    }
   };
+
+  const handleProfileSettings = () => {
+    if (navigation) {
+      navigation.navigate('ProfileSettings');
+    } else {
+      console.error('Navigation prop is undefined');
+    }
+  };
+  
 
   const textColor = isDarkTheme ? '#FFFFFF' : '#000000'; // Adjust text color based on theme
   const dropdownBackgroundColor = isDarkTheme ? '#333333' : '#FFFFFF'; // Background color for dropdown
@@ -38,16 +48,13 @@ const Header: React.FC<HeaderProps> = ({ isDarkTheme }) => {
       </TouchableOpacity>
       {isDropdownVisible && (
         <View style={[styles.dropdown, { backgroundColor: dropdownBackgroundColor, shadowColor }]}>
-          <TouchableOpacity style={styles.dropdownItem}>
-            <Text style={{ color: textColor }}>Settings</Text>
-          </TouchableOpacity>
-          {!isLoggedIn ? (
-            <TouchableOpacity style={styles.dropdownItem} onPress={handleLogin}>
-              <Text style={{ color: textColor }}>Login</Text>
-            </TouchableOpacity>
-          ) : (
+          <TouchableOpacity style={styles.dropdownItem} onPress={handleProfileSettings}>
+  <Text style={{ color: textColor }}>Profile Settings</Text>
+</TouchableOpacity>
+
+          {isLoggedIn && (
             <TouchableOpacity style={styles.dropdownItem} onPress={handleLogout}>
-              <Text style={{ color: textColor }}>Logout</Text>
+              <Text style={{ color: textColor }}>Sign Out</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -61,7 +68,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop:25,
+    marginTop: 25,
     padding: 20,
     zIndex: 1,
   },

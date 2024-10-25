@@ -10,9 +10,10 @@ import NavigationBar from '../components/NavigationBar';
 interface HomepageProps {
   isDarkTheme: boolean;
   toggleTheme: () => void;
+  navigation: any; // Add the navigation prop
 }
 
-const Homepage: React.FC<HomepageProps> = ({ isDarkTheme, toggleTheme }) => {
+const Homepage: React.FC<HomepageProps> = ({ isDarkTheme, toggleTheme, navigation }) => {
   // State to manage the running apps
   const [runningApps, setRunningApps] = useState<string[]>([]);
 
@@ -25,10 +26,21 @@ const Homepage: React.FC<HomepageProps> = ({ isDarkTheme, toggleTheme }) => {
 
   return (
     <View style={currentThemeStyles.container}>
-      <Header isDarkTheme={isDarkTheme} />
+      {/* Pass the navigation prop to Header */}
+      <Header isDarkTheme={isDarkTheme} navigation={navigation} />
       <ConnectedDeviceInfo isDarkTheme={isDarkTheme} />
       <RunningAppsList isDarkTheme={isDarkTheme} runningApps={runningApps} />
-      <YourAppsList isDarkTheme={isDarkTheme} addAppToRunningApps={addAppToRunningApps} />
+      <YourAppsList
+        isDarkTheme={isDarkTheme}
+        addAppToRunningApps={addAppToRunningApps}
+        installedApps={[
+          { name: 'Convoscope', icon: require('../assets/convo-rectangle.png') },
+          { name: 'ADHD Assist', icon: require('../assets/adhd-rectangle.png') },
+          { name: 'Translator', icon: require('../assets/translator-rectangle.png') },
+          { name: 'Placeholder', icon: require('../assets/ARGlassees-rectangle.png') },
+          { name: 'Placeholder', icon: require('../assets/ARGlassees-rectangle.png') },
+        ]}
+      />
       <BluetoothManager isDarkTheme={isDarkTheme} />
       <NavigationBar toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} />
     </View>

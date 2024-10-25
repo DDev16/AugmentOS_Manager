@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, ImageBackground, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, ImageBackground, ScrollView } from 'react-native';
 
 interface RunningAppsListProps {
   isDarkTheme: boolean;
@@ -14,13 +14,13 @@ const RunningAppsList: React.FC<RunningAppsListProps> = ({ isDarkTheme, runningA
   const getAppImage = (appName: string) => {
     switch (appName) {
       case 'Convoscope':
-        return require('../assets/convoscope.png');
+        return require('../assets/convo-rectangle.png');
       case 'ADHD Assist':
-        return require('../assets/adhd-aid.png');
+        return require('../assets/adhd-rectangle.png');
       case 'Translator':
-        return require('../assets/translator.png');
+        return require('../assets/translator-rectangle.png');
       case 'Placeholder':
-        return require('../assets/placeholder.png');
+        return require('../assets/ARGlassees-rectangle.png');
       default:
         return null;
     }
@@ -30,18 +30,20 @@ const RunningAppsList: React.FC<RunningAppsListProps> = ({ isDarkTheme, runningA
   const visibleApps = runningApps.slice(0, 4);
   const remainingAppCount = runningApps.length - visibleApps.length;
 
+  // Set the gradient background based on theme
+  const gradientBackgroundSource = isDarkTheme
+    ? require('../assets/dark-gradient-background.png')
+    : require('../assets/gradient-background.png');
+
   return (
     <View style={[styles.appsContainer, { backgroundColor }]}>
-      {/* Header with "See the casting" */}
+      {/* Header without "See the casting" */}
       <View style={styles.header}>
         <Text style={[styles.sectionTitle, { color: textColor }]}>Running Apps</Text>
-        <TouchableOpacity onPress={() => {/* Add your navigation logic here for "See the casting" */}}>
-          <Text style={[styles.seeAllText, { color: '#007AFF' }]}>See the casting</Text>
-        </TouchableOpacity>
       </View>
 
       <ImageBackground
-        source={require('../assets/gradient-background.png')}
+        source={gradientBackgroundSource}
         style={styles.gradientBackground}
         imageStyle={styles.gradientImage}
       >
@@ -82,10 +84,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
-  },
-  seeAllText: {
-    fontSize: 14,
-    fontWeight: 'bold',
   },
   header: {
     flexDirection: 'row',

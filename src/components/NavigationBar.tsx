@@ -17,14 +17,29 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ isDarkTheme }) => {
   const navigation = useNavigation<NavigationProp>(); // Use typed navigation object
   const iconColor = isDarkTheme ? '#FFFFFF' : '#000000';
 
+  // Navigate to the settings page
   const handleSettingsPress = () => {
-    navigation.navigate('SettingsPage'); // Navigate to the Settings screen
+    navigation.navigate('SettingsPage');
+  };
+
+  // Navigate to the glasses mirror page
+  const handleMirrorPress = () => {
+    navigation.navigate('GlassesMirror');
+  };
+
+  // Navigate to the home page
+  const handleHomePress = () => {
+    navigation.navigate('Home');
   };
 
   return (
     <View style={styles.navBarContainer}>
-      <Icon name="home" size={30} color={iconColor} />
-      <Icon name="tv" size={30} color={iconColor} />
+      <TouchableOpacity onPress={handleHomePress} style={styles.iconWrapper}>
+        <Icon name="home" size={30} color={iconColor} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleMirrorPress} style={styles.iconWrapper}>
+        <Icon name="tv" size={30} color={iconColor} />
+      </TouchableOpacity>
       <TouchableOpacity onPress={handleSettingsPress} style={styles.iconWrapper}>
         <Icon name="cog" size={30} color={iconColor} />
       </TouchableOpacity>

@@ -3,6 +3,63 @@
   "reactNativePath": "C:\\projects\\AugmentOS_Manager\\node_modules\\react-native",
   "reactNativeVersion": "0.75",
   "dependencies": {
+    "@react-native-firebase/app": {
+      "root": "C:\\projects\\AugmentOS_Manager\\node_modules\\@react-native-firebase\\app",
+      "name": "@react-native-firebase/app",
+      "platforms": {
+        "ios": {
+          "podspecPath": "C:\\projects\\AugmentOS_Manager\\node_modules\\@react-native-firebase\\app\\RNFBApp.podspec",
+          "version": "21.2.0",
+          "configurations": [],
+          "scriptPhases": [
+            {
+              "name": "[RNFB] Core Configuration",
+              "path": "./ios_config.sh",
+              "execution_position": "after_compile",
+              "input_files": [
+                "$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)"
+              ]
+            }
+          ]
+        },
+        "android": {
+          "sourceDir": "C:\\projects\\AugmentOS_Manager\\node_modules\\@react-native-firebase\\app\\android",
+          "packageImportPath": "import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;",
+          "packageInstance": "new ReactNativeFirebaseAppPackage()",
+          "buildTypes": [],
+          "componentDescriptors": [],
+          "cmakeListsPath": "C:/projects/AugmentOS_Manager/node_modules/@react-native-firebase/app/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
+    "@react-native-firebase/auth": {
+      "root": "C:\\projects\\AugmentOS_Manager\\node_modules\\@react-native-firebase\\auth",
+      "name": "@react-native-firebase/auth",
+      "platforms": {
+        "ios": {
+          "podspecPath": "C:\\projects\\AugmentOS_Manager\\node_modules\\@react-native-firebase\\auth\\RNFBAuth.podspec",
+          "version": "21.2.0",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "C:\\projects\\AugmentOS_Manager\\node_modules\\@react-native-firebase\\auth\\android",
+          "packageImportPath": "import io.invertase.firebase.auth.ReactNativeFirebaseAuthPackage;",
+          "packageInstance": "new ReactNativeFirebaseAuthPackage()",
+          "buildTypes": [],
+          "componentDescriptors": [],
+          "cmakeListsPath": "C:/projects/AugmentOS_Manager/node_modules/@react-native-firebase/auth/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
     "react-native-ble-manager": {
       "root": "C:\\projects\\AugmentOS_Manager\\node_modules\\react-native-ble-manager",
       "name": "react-native-ble-manager",
@@ -72,6 +129,31 @@
             "RNGestureHandlerRootViewComponentDescriptor"
           ],
           "cmakeListsPath": "C:/projects/AugmentOS_Manager/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
+    "react-native-image-picker": {
+      "root": "C:\\projects\\AugmentOS_Manager\\node_modules\\react-native-image-picker",
+      "name": "react-native-image-picker",
+      "platforms": {
+        "ios": {
+          "podspecPath": "C:\\projects\\AugmentOS_Manager\\node_modules\\react-native-image-picker\\react-native-image-picker.podspec",
+          "version": "7.1.2",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "C:\\projects\\AugmentOS_Manager\\node_modules\\react-native-image-picker\\android",
+          "packageImportPath": "import com.imagepicker.ImagePickerPackage;",
+          "packageInstance": "new ImagePickerPackage()",
+          "buildTypes": [],
+          "libraryName": "RNImagePickerSpec",
+          "componentDescriptors": [],
+          "cmakeListsPath": "C:/projects/AugmentOS_Manager/node_modules/react-native-image-picker/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,

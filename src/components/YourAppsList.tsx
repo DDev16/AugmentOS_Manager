@@ -6,9 +6,10 @@ const { width } = Dimensions.get('window');
 interface YourAppsListProps {
   isDarkTheme: boolean;
   addAppToRunningApps: (appName: string) => void; // Pass down the function to add apps
+  installedApps: { name: string; icon: any }[]; // List of installed apps with name and icon
 }
 
-const YourAppsList: React.FC<YourAppsListProps> = ({ isDarkTheme, addAppToRunningApps }) => {
+const YourAppsList: React.FC<YourAppsListProps> = ({ isDarkTheme, addAppToRunningApps, installedApps }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -24,12 +25,11 @@ const YourAppsList: React.FC<YourAppsListProps> = ({ isDarkTheme, addAppToRunnin
 
   return (
     <View style={styles.appsContainer}>
-      {/* Title with See all link */}
+      {/* Title with dynamic number of installed apps */}
       <View style={styles.header}>
-        <Text style={[styles.sectionTitle, { color: textColor }]}>Your Apps (12)</Text>
-        <TouchableOpacity onPress={() => {/* Add your navigation logic here for the 'See all' action */}}>
-          <Text style={[styles.seeAllText, { color: '#007AFF' }]}>See all</Text>
-        </TouchableOpacity>
+        <Text style={[styles.sectionTitle, { color: textColor }]}>
+          Your Apps ({installedApps.length})
+        </Text>
       </View>
 
       <ScrollView
@@ -38,34 +38,15 @@ const YourAppsList: React.FC<YourAppsListProps> = ({ isDarkTheme, addAppToRunnin
         onScroll={handleScroll}
         showsHorizontalScrollIndicator={false}
       >
-        <View style={styles.appIconsContainer}>
-          <TouchableOpacity onPress={() => addAppToRunningApps('Convoscope')}>
-            <View style={styles.appIconWrapper}>
-              <Image source={require('../assets/convo-rectangle.png')} style={styles.appIcon} />
-              <Text style={[styles.appLabel, { color: appLabelColor }]}>Convoscope</Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => addAppToRunningApps('ADHD Assist')}>
-            <View style={styles.appIconWrapper}>
-              <Image source={require('../assets/adhd-rectangle.png')} style={styles.appIcon} />
-              <Text style={[styles.appLabel, { color: appLabelColor }]}>ADHD Assist</Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => addAppToRunningApps('Translator')}>
-            <View style={styles.appIconWrapper}>
-              <Image source={require('../assets/translator-rectangle.png')} style={styles.appIcon} />
-              <Text style={[styles.appLabel, { color: appLabelColor }]}>Translator</Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => addAppToRunningApps('Placeholder')}>
-            <View style={styles.appIconWrapper}>
-              <Image source={require('../assets/placeholder.png')} style={styles.appIcon} />
-              <Text style={[styles.appLabel, { color: appLabelColor }]}>Placeholder</Text>
-            </View>
-          </TouchableOpacity>
+        <View style={[styles.appIconsContainer, { width: installedApps.length * 80 }]}>
+          {installedApps.map((app, index) => (
+            <TouchableOpacity key={index} onPress={() => addAppToRunningApps(app.name)}>
+              <View style={styles.appIconWrapper}>
+                <Image source={app.icon} style={styles.appIcon} />
+                <Text style={[styles.appLabel, { color: appLabelColor }]}>{app.name}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
         </View>
       </ScrollView>
 
@@ -101,13 +82,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  seeAllText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
   appIconsContainer: {
     flexDirection: 'row',
-    width: width, // Make sure the width is equal to screen width for pagination
+    // The width will now be dynamically calculated based on the number of apps
   },
   appIconWrapper: {
     alignItems: 'center',

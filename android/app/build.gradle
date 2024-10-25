@@ -22,10 +22,9 @@ def enableProguardInReleaseBuilds = false
 def jscFlavor = 'org.webkit:android-jsc:+'
 
 /**
- * Set this to true if you want to enable Hermes for your Android builds.
- * Hermes is an open-source JavaScript engine optimized for React Native.
+ * Disable Hermes by setting it to false.
  */
-def hermesEnabled = project.hasProperty("hermesEnabled") ? project.hermesEnabled.toBoolean() : false
+def hermesEnabled = false  // Set Hermes to false
 
 android {
     ndkVersion rootProject.ext.ndkVersion
@@ -59,10 +58,6 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
-    // Ensure enough memory allocation during builds
-    dexOptions {
-        jumboMode = true
-    }
     packagingOptions {
         pickFirst '**/libjsc.so'
         pickFirst '**/libc++_shared.so'
@@ -73,11 +68,8 @@ dependencies {
     // React Native core dependencies
     implementation("com.facebook.react:react-android")
 
-    if (hermesEnabled) {
-        implementation("com.facebook.react:hermes-android")
-    } else {
-        implementation jscFlavor
-    }
+    // Hermes disabled, so only JSC is used
+    implementation jscFlavor
 
     // Add react-native dependencies
     implementation project(':react-native-vector-icons')
@@ -86,6 +78,7 @@ dependencies {
     implementation project(':react-native-gesture-handler')
     implementation project(':react-native-safe-area-context')
     implementation project(':react-native-ble-manager')
+    implementation project(':react-native-linear-gradient')
 
     // Kotlin dependencies
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
@@ -99,5 +92,10 @@ dependencies {
 project.ext.vectoricons = [
     iconFontNames: [ 'AntDesign.ttf', 'Entypo.ttf', 'EvilIcons.ttf', 'Feather.ttf', 'FontAwesome.ttf', 'FontAwesome5_Brands.ttf', 'FontAwesome5_Regular.ttf', 'FontAwesome5_Solid.ttf', 'Foundation.ttf', 'Ionicons.ttf', 'MaterialIcons.ttf', 'MaterialCommunityIcons.ttf', 'SimpleLineIcons.ttf', 'Octicons.ttf', 'Zocial.ttf' ]
 ]
+
+project.ext.react = [
+    enableHermes: false  // Disable Hermes for troubleshooting
+]
+
 
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
