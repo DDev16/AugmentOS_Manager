@@ -1,0 +1,7 @@
+*.ts linguist-language=TypeScript
+*.kt linguist-language=Kotlin
+*.java linguist-language=Java
+*.m linguist-language=Objective-C
+*.rb linguist-language=Ruby
+*.js linguist-language=JavaScript
+*.mm linguist-language=Objective-C++
